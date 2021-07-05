@@ -23,14 +23,20 @@ class TelegramRequest extends FormRequest
      */
     public function rules()
     {
-        return [
 
+        return [
+            'chat_id' => ['integer'],
+            'first_name' => ['string'],
+            'message_text' => ['string']
         ];
     }
 
-//    public function validated()
-//    {
-//        return [
-//        ];
-//    }
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'chat_id' => $this->message['chat']['id'],
+            'first_name' => $this->message['chat']['first_name'],
+            'message_text' => $this->message['text']
+        ]);
+    }
 }
